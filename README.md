@@ -72,6 +72,48 @@ Each command returns a JSON acknowledgement broadcast to all WebSocket clients:
 {"cmd":"setBand","ok":true,"msg":"band set to 20m, MANUAL mode"}
 ```
 
+## GPIO Pin Mapping
+
+### WAVESHARE ESP32-S3 Zero (original)
+
+| Function | GPIO |
+|---|---|
+| PTT2 input (Sub-D) | 1 |
+| BandVoltage (HL2) | 2 |
+| Bias (BC547C base) | 3 |
+| RX/TX relais + TX LED | 4 |
+| Power ON LED | 5 |
+| PTT input (RCA) | 6 |
+| LPF 160m | 7 |
+| LPF 80m | 8 |
+| LPF 60m+40m | 9 |
+| LPF 30m+20m | 10 |
+| LPF 17m+15m | 11 |
+| LPF 12m+10m | 12 |
+| LPF 6m | 13 |
+| Onboard LED | 21 |
+
+### ESP32 Dev Module (remapped)
+
+> GPIO 1,3 = UART0 | GPIO 6-11 = internal SPI flash (unusable)
+
+| Function | GPIO |
+|---|---|
+| PTT2 input (Sub-D) | 32 |
+| BandVoltage (HL2) | 36 |
+| Bias (BC547C base) | 14 |
+| RX/TX relais + TX LED | 4 |
+| Power ON LED | 5 |
+| PTT input (RCA) | 33 |
+| LPF 160m | 25 |
+| LPF 80m | 26 |
+| LPF 60m+40m | 27 |
+| LPF 30m+20m | 18 |
+| LPF 17m+15m | 19 |
+| LPF 12m+10m | 23 |
+| LPF 6m | 22 |
+| Onboard LED | 21 |
+
 ## Requirements
 
 - the code was developed with the Arduino IDE 2.x and the additional ESP32 board extensions, you need the .ino file and all .h files in the same folder
