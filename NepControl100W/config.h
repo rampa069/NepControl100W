@@ -12,22 +12,22 @@
 //----------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------
-// WAVESHARE ESP32-S3 Zero GPIO PIN definition
-const int ptt2PIN = 1;     // PTT2 input line from Sub-D Pin 4 as additional, second PTT line
-const int bvHLPIN = 2;     // bandvoltage input from HL2 Sub-D Pin 1
-const int pttPIN = 6;      // PTT input line for reading PTT at RCA socket
-const int pwrPIN = 5;      // set the Power ON LED
-const int txPIN = 4;       // set the RX/TX relais which is connected with the TX LED too
-const int biasPIN = 3;     // set the base of the BC547C transisitor for bias on/off, H means Bias ON
-// GPIO PIN 7-13 are the LPF relais, H means relais is ON
-const int PIN160 = 7;      // set the LPF 160m relais
-const int PIN80 = 8;       // set the LPF 80m relais
-const int PIN6040 = 9;     // set the LPF 60m+40m relais
-const int PIN3020 = 10;    // set the LPF 30m+40m relais
-const int PIN1715 = 11;    // set the LPF 17m+15m relais
-const int PIN1210 = 12;    // set the LPF 12m+10m relais
-const int PIN6 = 13;       // set the LPF 6m relais
-const int ledPIN = 21;     // onboard LED at GPIO PIN 21 (fix)
+// ESP32 Dev Module GPIO PIN definition (remapped from ESP32-S3)
+// GPIO 1,3 = UART0 | GPIO 6-11 = SPI flash (NO usar en ESP32 clasico)
+const int ptt2PIN = 32;    // PTT2 input
+const int bvHLPIN = 36;    // bandvoltage input from HL2 (input-only pin)
+const int pttPIN = 33;     // PTT input line at RCA socket
+const int pwrPIN = 5;      // Power ON LED
+const int txPIN = 4;       // RX/TX relais + TX LED
+const int biasPIN = 14;    // BC547C base for bias on/off
+const int PIN160 = 25;     // LPF 160m relais
+const int PIN80 = 26;      // LPF 80m relais
+const int PIN6040 = 27;    // LPF 60m+40m relais
+const int PIN3020 = 18;    // LPF 30m+20m relais
+const int PIN1715 = 19;    // LPF 17m+15m relais
+const int PIN1210 = 23;    // LPF 12m+10m relais
+const int PIN6 = 22;       // LPF 6m relais
+const int ledPIN = 21;     // onboard LED
 //----------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------
@@ -56,8 +56,8 @@ unsigned long timerDelay = 500; // in ms, 1000 = 1s
 // const char* ssid = "YOUR_SSID";
 // const char* password = "YOUR_WIFI_PASSWORD";
 
-const char* ssid = "YOUR_WIFI_SSID";
-const char* password = "YOUR_WIFI_PASSWORD";
+const char* ssid = "jumanji_land";
+const char* password = "pandicornio";
 
 const char* hostname = "NEPTUNE-PA";             // define hostname for network
 const char* ntpServer = "192.53.103.108";        // define NTP server you will use

@@ -33,7 +33,7 @@
 */
 
 // define only if want using the dashboard and WiFi => don't forget to define WiFi credentials in config.h !!!
-// #define DASHBOARD
+#define DASHBOARD
 
 // system libraries installed from the Arduino IDE
 #ifdef DASHBOARD
@@ -42,6 +42,7 @@
 #include <AsyncTCP.h>          // requirement for the webserver
 #include <ESPAsyncWebServer.h> // webserver and websockets
 #include <Arduino_JSON.h>      // add JSON data handling
+#include <ESPmDNS.h>           // mDNS responder
 #endif
 
 // read global project config

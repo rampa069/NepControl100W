@@ -51,14 +51,27 @@ void init_WLAN() {
 
   WiFi.begin(ssid, password);      // Connect WiFi with your crendentials
   Serial.print("Connecting to WiFi..");
-  while (WiFi.status() != WL_CONNECTED) {
+  int wifiAttempts = 0;
+  while (WiFi.status() != WL_CONNECTED && wifiAttempts < 30) {
     Serial.print('.');
     delay(1000);
+    wifiAttempts++;
+  }
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println();
+    Serial.println("WiFi connection FAILED! Continuing without WiFi...");
+    return;
   }
 
   WiFi.setHostname(hostname);    // set the hostname if needed
   WiFi.setAutoReconnect(true);   // auto-reconnect WiFi if connection is interrupted
-  WiFi.persistent(true); 
+  WiFi.persistent(true);
+
+  if (MDNS.begin(hostname)) {
+    Serial.print("mDNS    : http://"); Serial.print(hostname); Serial.println(".local");
+  } else {
+    Serial.println("mDNS responder failed to start");
+  } 
   // info output IP and hostname
   Serial.println();
   Serial.print("Hostname: "); Serial.println(WiFi.getHostname());
