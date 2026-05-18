@@ -94,14 +94,7 @@ void init_GPIO() {
 //-----------------------------------------------------------------------------------------
 // init the ESP32 ADC input for measure the bandvoltage come from HL2
 void init_ADCs() {
-  adcAttachPin(bvHLPIN);
-  analogReadResolution(12);                  // 12bit = 0 – 4095, 11bit = 0 - 2047
-  // ESP32 ADC ranges depends of selected attenuation, default is 11db attenuation for maximum voltage range
-  //   0db 100mV ~  950mV
-  // 2.5db 100mV ~ 1250mV
-  //   6db 150mV ~ 1750mV
-  //  11db 150mV ~ 3100mV
-  analogSetPinAttenuation(bvHLPIN, ADC_11db); // select ATT 11db (default)
+  analogSetPinAttenuation(bvHLPIN, ADC_11db);
 }
 //-----------------------------------------------------------------------------------------
 
