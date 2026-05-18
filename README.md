@@ -130,21 +130,38 @@ arduino-cli upload \
   NepControl100W/
 ```
 
-### Tested build environment
+### Tested build environments
 
-| Component | Version |
-|---|---|
-| arduino-cli | 1.4.1 |
-| ESP32 core | 2.0.17 |
-| AsyncTCP | 1.1.4 |
-| ESPAsyncWebServer | 3.1.0 |
-| Arduino_JSON | 0.2.0 |
-| Board FQBN | `esp32:esp32:esp32s3:CPUFreq=240,FlashMode=qio,FlashSize=8M` |
-| Build result | 825 KB flash (62%), 45 KB RAM (13%) |
+| Component | Legacy (2.x) | Current (3.x) |
+|---|---|---|
+| arduino-cli | 1.4.1 | 1.4.1 |
+| ESP32 core | 2.0.17 | 3.3.8 |
+| Async TCP library | AsyncTCP 1.1.4 (me-no-dev) | Async TCP 3.4.10 (alorium) |
+| WebServer library | ESPAsyncWebServer 3.1.0 (lacamera) | ESP Async WebServer 3.11.0 (alorium) |
+| Arduino_JSON | 0.2.0 | 0.2.0 |
+| Flash usage | 825 KB (62%) | 1083 KB (82%) |
+| RAM usage | 45 KB (13%) | 46 KB (14%) |
 
-> **Note:** ESP32 core 3.x is NOT compatible — `adcAttachPin` was removed and
-> `ESPAsyncWebServer` 3.1.0 uses deprecated mbedtls API calls. Pin to
-> `esp32:esp32@2.0.17` until the code is ported forward.
+> **Note:** The two library families are NOT interchangeable. When using
+> ESP32 core 2.x, install `AsyncTCP` + `ESPAsyncWebServer` (lacamera).
+> When using ESP32 core 3.x, install `Async TCP` + `ESP Async WebServer`
+> (alorium). Mixing them causes compile errors.
+
+### Setup for ESP32 core 3.x (recommended)
+
+```bash
+arduino-cli core install esp32:esp32@3.3.8
+arduino-cli lib uninstall AsyncTCP ESPAsyncWebServer 2>/dev/null
+arduino-cli lib install "Async TCP" "ESP Async WebServer" Arduino_JSON
+```
+
+### Setup for ESP32 core 2.x (legacy)
+
+```bash
+arduino-cli core install esp32:esp32@2.0.17
+arduino-cli lib uninstall "Async TCP" "ESP Async WebServer" 2>/dev/null
+arduino-cli lib install AsyncTCP ESPAsyncWebServer Arduino_JSON
+```
 
 <hr>
 
