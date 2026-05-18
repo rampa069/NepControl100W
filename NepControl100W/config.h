@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------
-#define VERSION "Neptune PA Control replacement V2.0 by DL1BZ"
+#define VERSION "Neptune PA Control replacement V2.1 by DL1BZ (remote cmd support by EA5IUE)"
 #define DEBUG_STATE
 #define DEBUG_ADC
 // #define STATICIP               // if using Static IP, not DHCP
@@ -35,6 +35,10 @@ const int ledPIN = 21;     // onboard LED at GPIO PIN 21 (fix)
 boolean G_LEDState;
 const int G_PTTDelay = 20; // in ms, delay for BIAS on
 int G_bandcode;
+
+volatile int G_bandMode = 0;       // 0=AUTO (HL2 bandvoltage), 1=MANUAL (remote band from Zeus)
+volatile int G_remoteBand = 0;     // remote band in metres (only used when G_bandMode==1)
+volatile bool G_remotePTT = false; // remote PTT override (ORed with hardware PTT)
 //----------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------

@@ -335,11 +335,11 @@ void loop() {
   RX => PTT input line set High / BIAS OFF set U1 PIN3 High / RX/TX relais OFF = set GPIO to Low
   */
 
-  // MAIN PA CONTROL
-  if(PTTState || PTT2State) {
-    amp_TX(); // Amp ON
+  // MAIN PA CONTROL — hardware PTT ORed with remote PTT override
+  if(PTTState || PTT2State || G_remotePTT) {
+    amp_TX();
   } else {
-    amp_RX(); // Amp OFF
+    amp_RX();
   }
 
   // here we using an exact timer with millis(), time is defined with timerDelay
@@ -355,9 +355,15 @@ void loop() {
 
     G_bandcode = calc_Band(Read_BV(bvHLPIN)); // read bandvoltage from the HL2
     
-    // switch LPF only if RX at both PTT lines
-    if (!PTTState && !PTT2State) { 
-      set_LPF(G_bandcode);
+    // switch LPF only if RX at both PTT lines (and remote PTT off)
+    if (!PTTState && !PTT2State && !G_remotePTT) { 
+      if (G_bandMode == 0) {
+        // AUTO mode: use HL2 bandvoltage
+        set_LPF(G_bandcode);
+      } else {
+        // MANUAL mode: use remote band from Zeus plugin
+        set_LPF(G_remoteBand);
+      }
     }
 
     #ifdef DASHBOARD 

@@ -24,6 +24,54 @@ with
 </code>
 __Don't forget to define your WiFi credentials in the <config.h>__
 
+## Remote control via WebSocket
+
+When the DASHBOARD is enabled, the WebSocket server at `ws://<ip>/ws` accepts
+JSON commands for remote control from the Zeus plugin or any other WebSocket
+client. The legacy plaintext `"getReadings"` command from the built-in
+dashboard is preserved for backward compatibility.
+
+### Commands
+
+All commands are JSON objects with a `"cmd"` field:
+
+| Command | JSON | Description |
+|---|---|---|
+| Set band manually | `{"cmd":"setBand","band":20}` | Switch to MANUAL mode, select LPF for the given band (160/80/60/40/30/20/17/15/12/10/6) |
+| Auto band from HL2 | `{"cmd":"setAutoBand"}` | Switch back to AUTO mode, LPF follows HL2 bandvoltage |
+| Remote PTT override | `{"cmd":"setPTT","state":true}` | Force PTT on/off remotely (ORed with hardware PTT) |
+| Request telemetry | `{"cmd":"getStatus"}` | Request an immediate telemetry push |
+
+### Telemetry format
+
+The ESP32 pushes telemetry JSON every ~500 ms and on `getStatus` request:
+
+```json
+{
+  "ptt": true,
+  "bias": true,
+  "rxtxrelais": true,
+  "bv": "1842",
+  "band": "20",
+  "bandMode": "AUTO",
+  "ssid": "MyNetwork",
+  "rssi": "-55",
+  "rst": "S7",
+  "time": "18.05.2026 14:30:00"
+}
+```
+
+The `bandMode` field is `"AUTO"` (HL2 bandvoltage drives LPF selection) or
+`"MANUAL"` (remote `setBand` command drives LPF selection).
+
+### Command response format
+
+Each command returns a JSON acknowledgement broadcast to all WebSocket clients:
+
+```json
+{"cmd":"setBand","ok":true,"msg":"band set to 20m, MANUAL mode"}
+```
+
 ## Requirements
 
 - the code was developed with the Arduino IDE 2.x and the additional ESP32 board extensions, you need the .ino file and all .h files in the same folder
